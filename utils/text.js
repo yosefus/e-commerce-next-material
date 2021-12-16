@@ -1,0 +1,26 @@
+export const productPageText = {
+  en: {
+    categoryText: 'category',
+    materialText: 'material',
+    ratingText: 'rating',
+    reviewsText: 'reviews',
+    descriptionText: 'description',
+    priceText: 'price',
+    ststusText: 'status',
+    inStockText: 'in stock',
+    unAvailableText: 'unavailable',
+    AddToCartText: 'add to cart',
+  },
+  he: {
+    categoryText: 'קטגוריה',
+    materialText: 'חומרים',
+    ratingText: 'דירוג',
+    reviewsText: 'מדרגים',
+    descriptionText: 'תיאור',
+    priceText: 'מחיר',
+    ststusText: 'זמינות',
+    inStockText: 'במלאי',
+    unAvailableText: 'אזל זמנית',
+    AddToCartText: 'הוסף לעגלה',
+  },
+};
