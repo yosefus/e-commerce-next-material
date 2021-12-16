@@ -1,3 +1,9 @@
+hii there.
+
+i`m yosefus and this is my project of e-commerce store build with next.js, material-ui and myself.
+
+have fun!
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
