@@ -17,7 +17,7 @@ export default function ProductDescription({ name, description, textData }) {
   return (
     <List>
       <ListItem>
-        <Typography component="h1" className="little-title">
+        <Typography component="h1" variant="h1" className="little-title">
           {name}
         </Typography>
       </ListItem>
@@ -32,7 +32,7 @@ export default function ProductDescription({ name, description, textData }) {
       </ListItem>
       <ListItem>
         <div>
-          <span className="little-title"> {descriptionText}</span>:<Typography>{description}</Typography>
+          <span className="little-title">{descriptionText}</span>:<Typography>{description}</Typography>
         </div>
       </ListItem>
     </List>

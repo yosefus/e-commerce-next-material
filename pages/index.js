@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material';
 import { ProductBox } from '../components';
-import styles from '../styles/Home.module.css';
+// import styles from '../styles/Home.module.css';
 import data from './../utils/data';
 
 export default function Home() {
-  const lang = 'en';
+  // const lang = 'en';
 
   const items = data.products;
 

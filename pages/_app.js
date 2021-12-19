@@ -1,28 +1,37 @@
-import { createTheme, ThemeProvider, CssBaseline, Paper } from '@mui/material';
+import { CssBaseline, Paper } from '@mui/material';
 import '../styles/globals.css';
 import Layout from './../components/Layouts/Layout';
+import { styled } from '@mui/system';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+// import { theme } from '../styles/themes/themes';
+import { StoreProvider } from '../utils/Store';
 
 function MyApp({ Component, pageProps }) {
-  const theme = createTheme({
-    palette: {
-      mode: 'light',
-    },
-    palette: {
-      primary: {
-        main: '#330033',
-      },
-    },
-  });
+  useEffect(() => {
+    AOS.init({
+      offset: 200,
+      duration: 600,
+      easing: 'ease-in-sine',
+      delay: 100,
+      disable: 'mobile',
+    });
+  }, []);
+
+  const LangPaper = styled(Paper)((/* { theme } */) => ({
+    // direction: theme.lang.dir,
+  }));
 
   return (
-    <ThemeProvider theme={theme}>
+    <StoreProvider>
       <CssBaseline />
-      <Paper>
+      <LangPaper>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </Paper>
-    </ThemeProvider>
+      </LangPaper>
+    </StoreProvider>
   );
 }
 
