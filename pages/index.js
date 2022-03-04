@@ -10,12 +10,12 @@ export default function Home() {
   const items = data.products;
 
   useEffect(() => {
-    const c = async () => {
-      const data = await fetch('/api/hello').then((r) => r.json());
-      console.log(data);
-      console.log('1');
-    };
-    c();
+    // const c = async () => {
+    //   const data = await fetch('/api/seed').then((r) => r.json());
+    //   console.log(data);
+    //   console.log('1');
+    // };
+    // c();
   }, []);
 
   return (
