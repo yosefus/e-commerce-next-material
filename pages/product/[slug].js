@@ -71,18 +71,8 @@ function ProductPage() {
     },
   }));
 
-  const {
-    categoryText,
-    materialText,
-    ratingText,
-    reviewsText,
-    descriptionText,
-    priceText,
-    ststusText,
-    unAvailableText,
-    inStockText,
-    AddToCartText,
-  } = Text[lang];
+  const { categoryText, materialText, ratingText, reviewsText, descriptionText, priceText, ststusText, unAvailableText, inStockText, AddToCartText } =
+    Text[lang];
 
   return (
     <>

@@ -1,18 +1,12 @@
 import React, { useContext } from 'react';
-import {
-  AppBar,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Switch,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { AppBar, FormControl, InputLabel, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import Link from 'next/link';
 import { Store, ACTION_TYPES } from '../../../utils/Store';
 import LanguageIcon from '@mui/icons-material/Language';
+import Cookies from 'js-cookie';
+
+const { DARK_MODE, LANG_EN, LANG_HE, LIGHT_MODE } = ACTION_TYPES;
 
 const StyledNav = styled(AppBar)({
   '& .link': {
@@ -38,11 +32,12 @@ export default function Header() {
   const { state, dispatch } = useContext(Store);
   const { darkMode } = state;
 
-  const ChangeDarkHandler = () =>
-    dispatch({ type: darkMode ? ACTION_TYPES.LIGHT_MODE : ACTION_TYPES.DARK_MODE });
+  const ChangeDarkHandler = () => {
+    Cookies.set('darkMode', !darkMode ? 'ON' : 'OFF');
+    dispatch({ type: darkMode ? LIGHT_MODE : DARK_MODE });
+  };
 
-  const handleLangChange = (e) =>
-    dispatch({ type: e.target.value == 'he' ? ACTION_TYPES.LANG_HE : ACTION_TYPES.LANG_EN });
+  const handleLangChange = (e) => dispatch({ type: e.target.value == 'he' ? LANG_HE : LANG_EN });
 
   return (
     <StyledNav dir="ltr" position="static">
@@ -55,13 +50,13 @@ export default function Header() {
           </a>
         </Link>
         <div style={{ flexGrow: 1 }}></div>
-        <Switch color="secondary" checked={darkMode} onChange={ChangeDarkHandler}></Switch>
+        <Switch color="secondary" checked={darkMode === 1 ? true : false} onChange={ChangeDarkHandler}></Switch>
 
         <FormControl className="select">
           <InputLabel id="lang">
             <LanguageIcon />
           </InputLabel>
-          <Select onChange={(e) => handleLangChange(e)} labelId="lang">
+          <Select value={state.lang} onChange={(e) => handleLangChange(e)} labelId="lang">
             <MenuItem value={'he'}>עב</MenuItem>
             <MenuItem value={'en'}>En</MenuItem>
           </Select>

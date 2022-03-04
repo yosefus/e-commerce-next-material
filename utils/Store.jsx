@@ -1,10 +1,12 @@
+import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { createContext, useReducer } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 import styles from './langStyle.module.css';
+
 export const Store = createContext();
 
 const initialState = {
-  darkMode: false,
+  darkMode: 1,
   lang: 'en',
 };
 
@@ -16,12 +18,12 @@ export const ACTION_TYPES = {
 };
 
 function reducer(state, action) {
-  console.log(action.type);
+  // console.log(action.type);
   switch (action.type) {
     case ACTION_TYPES.DARK_MODE:
-      return { ...state, darkMode: true };
+      return { ...state, darkMode: 1 };
     case ACTION_TYPES.LIGHT_MODE:
-      return { ...state, darkMode: false };
+      return { ...state, darkMode: 0 };
     case ACTION_TYPES.LANG_EN:
       return { ...state, lang: 'en' };
     case ACTION_TYPES.LANG_HE:
@@ -31,9 +33,11 @@ function reducer(state, action) {
   }
 }
 
-export function StoreProvider({ children }) {
+export default function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const value = { state, dispatch };
+
+  useEffect(() => dispatch({ type: Cookies.get('darkMode') === 'ON' ? ACTION_TYPES.DARK_MODE : ACTION_TYPES.LIGHT_MODE }), []);
 
   const theme = createTheme({
     direction: 'rtl',
@@ -54,7 +58,7 @@ export function StoreProvider({ children }) {
       bg: '#330099',
     },
     palette: {
-      mode: state.darkMode ? 'dark' : 'light',
+      mode: state.darkMode === 1 ? 'dark' : 'light',
       primary: {
         main: '#330033',
       },

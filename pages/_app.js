@@ -6,7 +6,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 // import { theme } from '../styles/themes/themes';
-import { StoreProvider } from '../utils/Store';
+import StoreProvider from '../utils/Store';
+// import { StoreProvider } from './../utils/Store';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
