@@ -22,5 +22,7 @@ async function disconnect() {
   }
 }
 
-const db = { connect, disconnect };
+const convertMongoDoc = (doc) => ({ ...doc, _id: doc._id.toString(), updatedAt: doc.updatedAt.toString(), createdAt: doc.createdAt.toString() });
+
+const db = { connect, disconnect, convertMongoDoc };
 export default db;

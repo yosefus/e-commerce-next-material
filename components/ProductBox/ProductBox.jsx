@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { styled } from '@mui/system';
-import { Button, Grid, Typography } from '@mui/material';
-import { Card, CardActionArea, CardActions, CardContent, CardMedia } from '@mui/material';
 import Link from 'next/link';
-import { Store } from '../../utils/Store';
+import { styled } from '@mui/system';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Grid, Typography } from '@mui/material';
+import { ACTION_TYPES, Store } from '../../utils/Store';
+import { apiReq } from '../../functions/apiFunction';
 
 const Text = {
   he: {
@@ -15,9 +15,10 @@ const Text = {
 };
 
 function ProductBox({ data }) {
-  const { state } = useContext(Store);
+  const { state, dispatch } = useContext(Store);
   const { lang } = state;
   const { addToCart } = Text[lang];
+  const { slug, name, price, image } = data;
 
   const StyledCard = styled(Grid)(() => ({
     '& .name': {
@@ -29,20 +30,12 @@ function ProductBox({ data }) {
     },
   }));
 
-  const {
-    slug,
-    name,
-    price,
-    image,
-    // description,
-    // discount,
-    // material,
-    // diamonds,
-    // rating,
-    // numReview,
-    // countInStock,
-    // category,
-  } = data;
+  const handleAddToCart = async () => {
+    const item = await apiReq({ path: `/products/${data._id}`, method: 'get' });
+    if (!item.countInStock) return alert('sorry. product is out of stock');
+    dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quentity: 1 } });
+    console.log(item);
+  };
 
   return (
     <StyledCard item md={4}>
@@ -59,10 +52,9 @@ function ProductBox({ data }) {
         </CardContent>
         <CardActions>
           <Typography>
-            {lang == 'en' ? '$' : '₪'}
-            {price}
+            {lang == 'en' ? '$' : '₪'} {price}
           </Typography>
-          <Button size="small" variant="text" color="secondary">
+          <Button onClick={handleAddToCart} size="small" variant="text" color="secondary">
             {addToCart}
           </Button>
         </CardActions>

@@ -1,13 +1,11 @@
-import { Grid } from '@mui/material';
 import { useEffect } from 'react';
-import { ProductBox } from '../components';
+import { AllProducts } from '../components';
+import db from '../server/db';
+import Product from '../server/models/product';
 // import styles from '../styles/Home.module.css';
-import data from './../utils/data';
 
-export default function Home() {
+export default function Home({ products }) {
   // const lang = 'en';
-
-  const items = data.products;
 
   useEffect(() => {
     // const c = async () => {
@@ -20,12 +18,18 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Products</h1>
-      <Grid container spacing={3}>
-        {items.map((item, i) => (
-          <ProductBox key={`num${i}`} data={item} />
-        ))}
-      </Grid>
+      <AllProducts products={products} />
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  await db.connect();
+  const productsDoc = await Product.find({ isDeleted: false }).lean();
+  const products = productsDoc.map(db.convertMongoDoc);
+  return {
+    props: {
+      products,
+    },
+  };
 }

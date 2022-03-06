@@ -15,6 +15,7 @@ export const ACTION_TYPES = {
   LIGHT_MODE: 'light_mode',
   LANG_EN: 'en',
   LANG_HE: 'he',
+  ADD_TO_CART: 'add_to_cart',
 };
 
 function reducer(state, action) {
