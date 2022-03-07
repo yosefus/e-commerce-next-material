@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppBar, FormControl, InputLabel, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, FormControl, InputLabel, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import Link from 'next/link';
 import { Store, ACTION_TYPES } from '../../../utils/Store';
@@ -30,7 +30,7 @@ const StyledNav = styled(AppBar)({
 
 export default function Header() {
   const { state, dispatch } = useContext(Store);
-  const { darkMode } = state;
+  const { darkMode, cart } = state;
 
   const ChangeDarkHandler = () => {
     Cookies.set('darkMode', !darkMode ? 'ON' : 'OFF');
@@ -50,7 +50,7 @@ export default function Header() {
           </a>
         </Link>
         <div style={{ flexGrow: 1 }}></div>
-        <Switch color="secondary" checked={darkMode === 1 ? true : false} onChange={ChangeDarkHandler}></Switch>
+        <Switch color="secondary" checked={darkMode === 1} onChange={ChangeDarkHandler}></Switch>
 
         <FormControl className="select">
           <InputLabel id="lang">
@@ -63,7 +63,15 @@ export default function Header() {
         </FormControl>
 
         <Link href="/">
-          <a className="linkNav">cart</a>
+          <a className="linkNav">
+            {cart.cartItems.length ? (
+              <Badge color="secondary" badgeContent={cart.cartItems.length}>
+                cart
+              </Badge>
+            ) : (
+              'cart'
+            )}
+          </a>
         </Link>
         <Link href="/">
           <a className="linkNav">login</a>

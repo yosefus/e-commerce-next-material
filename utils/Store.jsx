@@ -5,11 +5,6 @@ import styles from './langStyle.module.css';
 
 export const Store = createContext();
 
-const initialState = {
-  darkMode: 1,
-  lang: 'en',
-};
-
 export const ACTION_TYPES = {
   DARK_MODE: 'dark_mode',
   LIGHT_MODE: 'light_mode',
@@ -23,18 +18,35 @@ function reducer(state, action) {
   switch (action.type) {
     case ACTION_TYPES.DARK_MODE:
       return { ...state, darkMode: 1 };
+
     case ACTION_TYPES.LIGHT_MODE:
       return { ...state, darkMode: 0 };
+
     case ACTION_TYPES.LANG_EN:
       return { ...state, lang: 'en' };
+
     case ACTION_TYPES.LANG_HE:
       return { ...state, lang: 'he' };
+
+    case ACTION_TYPES.ADD_TO_CART: {
+      const newItem = action.payload;
+      const existItem = state.cart.cartItems.find((item) => item._id === newItem._id);
+      const cartItems = existItem
+        ? state.cart.cartItems.map((item) => (item._id === newItem._id ? { ...newItem, quantity: item.quantity + 1 } : item))
+        : [...state.cart.cartItems, newItem];
+      Cookies.set('cartItems', JSON.stringify(cartItems));
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
+
     default:
       return state;
   }
 }
 
 export default function StoreProvider({ children }) {
+  const cartItems = Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : [];
+  const initialState = { darkMode: 1, lang: 'en', cart: { cartItems } };
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const value = { state, dispatch };
 
@@ -59,7 +71,7 @@ export default function StoreProvider({ children }) {
       bg: '#330099',
     },
     palette: {
-      mode: state.darkMode === 1 ? 'dark' : 'light',
+      mode: state.darkMode ? 'dark' : 'light',
       primary: {
         main: '#330033',
       },

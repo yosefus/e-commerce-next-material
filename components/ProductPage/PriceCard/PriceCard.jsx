@@ -1,8 +1,9 @@
-import { Button, Card, Grid, List, ListItem, Typography } from '@mui/material';
+import { Card, Grid, List, ListItem, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { AddToCart } from '../..';
 
-export default function PriceCard({ textData, handleAddToCart }) {
-  const { priceText, price, ststusText, countInStock, inStockText, unAvailableText, AddToCartText } = textData;
+export default function PriceCard({ textData, product }) {
+  const { priceText, price, ststusText, countInStock, inStockText, unAvailableText } = textData;
 
   const StyledCard = styled(Card)(({ theme }) => ({
     boxShadow: theme.styling.boxShadow,
@@ -32,9 +33,7 @@ export default function PriceCard({ textData, handleAddToCart }) {
           </Grid>
         </ListItem>
         <ListItem>
-          <Button fullWidth variant="contained" color="secondary" onClick={handleAddToCart}>
-            {AddToCartText}
-          </Button>
+          <AddToCart product={product} color="secondary" variant="contained" fullWidth={true} size="normal" />
         </ListItem>
       </List>
     </StyledCard>

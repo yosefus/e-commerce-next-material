@@ -10,21 +10,13 @@ import { productPageText as Text } from './../../utils/text';
 
 import { Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import { ACTION_TYPES, Store } from '../../utils/Store';
+import { Store } from '../../utils/Store';
 import db from '../../server/db';
 import Product from '../../server/models/product';
-import { apiReq } from '../../functions/apiFunction';
 
 function ProductPage({ product }) {
+  const { state } = useContext(Store);
   const { lang } = state;
-  const { state, dispatch } = useContext(Store);
-
-  const handleAddToCart = async () => {
-    const item = await apiReq({ path: `/products/${product._id}`, method: 'get' });
-    if (!item.countInStock) return alert('sorry. product is out of stock');
-    dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quentity: 1 } });
-    console.log(item);
-  };
 
   if (!product) return <div>not found</div>;
 
@@ -78,7 +70,7 @@ function ProductPage({ product }) {
           </StyledGrid>
 
           <StyledGrid item md={3} xs={12}>
-            <PriceCard textData={{ ...Text[lang], ...product }} handleAddToCart={handleAddToCart} />
+            <PriceCard product={product} textData={{ ...Text[lang], ...product }} />
           </StyledGrid>
         </Grid>
       </div>
