@@ -2,17 +2,8 @@ import React from 'react';
 import { List, ListItem, Typography } from '@mui/material';
 
 export default function ProductDescription({ name, description, textData }) {
-  const {
-    categoryText,
-    category,
-    materialText,
-    material,
-    ratingText,
-    rating,
-    numReview,
-    reviewsText,
-    descriptionText,
-  } = textData;
+  const { categoryText, category, materialText, material, } = textData,
+    { ratingText, rating, numReview, reviewsText, descriptionText } = textData;
 
   return (
     <List>

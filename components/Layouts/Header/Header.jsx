@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import { Store, ACTION_TYPES } from '../../../utils/Store';
 import LanguageIcon from '@mui/icons-material/Language';
 import { MyLink } from '../../'
+import { header as Text } from '../../../utils/text'
 
 const { DARK_MODE, LANG_EN, LANG_HE, LIGHT_MODE } = ACTION_TYPES;
 
@@ -29,11 +30,6 @@ const StyledNav = styled(AppBar)({
     textTransform: "initial"
   }
 });
-
-const Text = {
-  he: { logout: "התנתקות", profile: "פרופיל", cart: "עגלה", myAccount: "החשבון שלי", login: "התחברות" },
-  en: { logout: "logout", profile: "profile", cart: "cart", myAccount: "my account", login: "login" }
-}
 
 export default function Header() {
   const { state, dispatch } = useContext(Store),
@@ -72,7 +68,7 @@ export default function Header() {
 
         {/* error */}
         <MyLink href="/cart" className="linkNav" >
-          {cart.cartItems.length ? (
+          {cart?.cartItems?.cartItems && cart.cartItems.length ? (
             <Badge color="secondary" badgeContent={cart.cartItems.length}>{Text[lang].cart} </Badge>
           ) : Text[lang].cart}
         </MyLink>

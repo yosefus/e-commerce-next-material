@@ -1,4 +1,4 @@
-import { AppBar, Typography } from '@mui/material';
+import { AppBar } from '@mui/material';
 import { styled } from '@mui/system';
 import React from 'react';
 

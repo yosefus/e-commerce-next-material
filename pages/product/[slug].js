@@ -15,8 +15,7 @@ import db from '../../server/db';
 import Product from '../../server/models/product';
 
 function ProductPage({ product }) {
-  const { state } = useContext(Store);
-  const { lang } = state;
+  const { state: { lang } } = useContext(Store);
 
   if (!product) return <div>not found</div>;
 

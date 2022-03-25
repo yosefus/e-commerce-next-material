@@ -5,8 +5,7 @@ import { Store } from '../../utils/Store';
 import { AddToCart, MyLink } from '..';
 
 function ProductBox({ data }) {
-  const { state } = useContext(Store);
-  const { lang } = state;
+  const { state: { lang } } = useContext(Store);
   const { slug, name, price, image } = data;
 
   const StyledCard = styled(Grid)(() => ({

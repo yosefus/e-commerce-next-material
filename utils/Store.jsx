@@ -17,7 +17,6 @@ export const ACTION_TYPES = {
 };
 
 function reducer(state, action) {
-  // console.log(action.type);
   switch (action.type) {
     case ACTION_TYPES.DARK_MODE: {
       Cookies.set('darkMode', "on");
@@ -72,8 +71,8 @@ export default function StoreProvider({ children }) {
     user = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null,
     initialState = { darkMode: 0, lang: 'en', cart: { cartItems }, user };
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const value = { state, dispatch };
+  const [state, dispatch] = useReducer(reducer, initialState),
+    value = { state, dispatch };
 
   useEffect(() => Cookies.get('darkMode') === "on" && dispatch({ type: ACTION_TYPES.DARK_MODE }), []);
 

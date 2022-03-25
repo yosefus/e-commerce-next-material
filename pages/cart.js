@@ -9,35 +9,7 @@ import dynamic from 'next/dynamic'
 import { apiReq } from '../functions/apiFunction';
 import { useRouter } from 'next/router';
 import { MyLink } from '../components'
-
-const Text = {
-  en: {
-    title: 'shopping cart',
-    emptyMsg: 'cart is empty.',
-    emptyLink: 'go shopping',
-    image: 'image',
-    name: 'name',
-    price: "price",
-    quantity: 'quantity',
-    actions: 'actions',
-    subtotal: "subtotal",
-    itemsInCart: "items in cart",
-    checkout: "check out"
-  },
-  he: {
-    title: 'עגלת הקניות',
-    emptyMsg: 'העגלה ריקה.',
-    emptyLink: 'חזור לקניות',
-    image: 'תמונה',
-    name: 'שם',
-    price: "מחיר",
-    quantity: 'כמות',
-    actions: 'פעולות',
-    subtotal: "סך הכל",
-    itemsInCart: "פריטים בעגלה",
-    checkout: "לתשלום"
-  },
-};
+import { cart as Text } from '../utils/text'
 
 function CartScreen() {
   const { state: { cart, lang }, dispatch } = useContext(Store);

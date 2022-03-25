@@ -6,10 +6,7 @@ function Shipping() {
    const { state: { user } } = useContext(Store),
       router = useRouter()
 
-   console.log("shippiing");
-
    useEffect(() => !user && router.push("/login?redirect=/shipping"), [user])
-
 
    return (
       <div>Shipping</div>
