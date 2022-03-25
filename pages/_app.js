@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 // import { theme } from '../styles/themes/themes';
 import StoreProvider from '../utils/Store';
 // import { StoreProvider } from './../utils/Store';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -31,6 +33,7 @@ function MyApp({ Component, pageProps }) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ToastContainer />
       </LangPaper>
     </StoreProvider>
   );

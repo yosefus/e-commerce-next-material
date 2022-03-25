@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import Link from 'next/link';
 import { styled } from '@mui/system';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { Store } from '../../utils/Store';
-import { AddToCart } from '..';
+import { AddToCart, MyLink } from '..';
 
 function ProductBox({ data }) {
   const { state } = useContext(Store);
@@ -23,13 +22,11 @@ function ProductBox({ data }) {
   return (
     <StyledCard item md={4}>
       <Card>
-        <Link href={`/product/${slug}`}>
-          <a>
-            <CardActionArea>
-              <CardMedia component="img" image={image} title={name[lang]}></CardMedia>
-            </CardActionArea>
-          </a>
-        </Link>
+        <MyLink href={`/product/${slug}`}>
+          <CardActionArea>
+            <CardMedia component="img" image={image} title={name[lang]}></CardMedia>
+          </CardActionArea>
+        </MyLink>
         <CardContent>
           <Typography className="name">{name[lang]}</Typography>
         </CardContent>

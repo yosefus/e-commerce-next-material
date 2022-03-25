@@ -6,3 +6,4 @@ export { default as AddToCart } from './AddToCart/AddToCart';
 export { default as ProductDescription } from './ProductPage/ProductDescription/ProductDescription';
 export { default as PriceCard } from './ProductPage/PriceCard/PriceCard';
 export { default as AllProducts } from './AllProducts';
+export { default as MyLink } from './MyLink';

@@ -20,11 +20,14 @@ function AddToCart({ product, size, variant, color, fullWidth }) {
   const router = useRouter();
 
   const handleAddToCart = async () => {
+    const existItem = state.cart.cartItems.find(i => i._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
     const item = await apiReq({ path: `/products/${product._id}`, method: 'get' });
-    console.log(item);
-    if (!item.countInStock) return alert('sorry. product is out of stock');
-    dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quantity: 1 } });
-    console.log(item, 'add to cart');
+    if (item.countInStock < quantity) return alert(`sorry. we don't have more from this product in stock`);
+
+    dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quantity } });
+
     router.push('/cart');
   };
 

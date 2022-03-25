@@ -10,10 +10,11 @@ export const apiReq = async ({ path, body, method }) => {
 
     console.log('api req', data);
 
-    if (!data.success) throw data.msg;
+    if (!data.success) throw data;
 
     return data.data;
   } catch (error) {
     console.log(error.message || error);
+    return error
   }
 };

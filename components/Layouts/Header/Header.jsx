@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
-import { AppBar, Badge, FormControl, InputLabel, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { AppBar, Badge, Button, FormControl, InputLabel, Menu, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import Link from 'next/link';
 import { Store, ACTION_TYPES } from '../../../utils/Store';
 import LanguageIcon from '@mui/icons-material/Language';
-import Cookies from 'js-cookie';
+import { MyLink } from '../../'
 
 const { DARK_MODE, LANG_EN, LANG_HE, LIGHT_MODE } = ACTION_TYPES;
 
@@ -26,29 +25,38 @@ const StyledNav = styled(AppBar)({
   '& .select > *': {
     color: '#fff',
   },
+  "& .userBtn": {
+    textTransform: "initial"
+  }
 });
 
-export default function Header() {
-  const { state, dispatch } = useContext(Store);
-  const { darkMode, cart } = state;
+const Text = {
+  he: { logout: "התנתקות", profile: "פרופיל", cart: "עגלה", myAccount: "החשבון שלי", login: "התחברות" },
+  en: { logout: "logout", profile: "profile", cart: "cart", myAccount: "my account", login: "login" }
+}
 
-  const ChangeDarkHandler = () => {
-    Cookies.set('darkMode', !darkMode ? 'ON' : 'OFF');
-    dispatch({ type: darkMode ? LIGHT_MODE : DARK_MODE });
-  };
+export default function Header() {
+  const { state, dispatch } = useContext(Store),
+    { darkMode, cart, user, lang } = state,
+    [menuState, setMenuState] = useState(false);
+
+  const ChangeDarkHandler = () => dispatch({ type: darkMode ? LIGHT_MODE : DARK_MODE });
+
+  const handleMenu = (e) => setMenuState(menuState ? false : e.currentTarget)
+
+  const handleLogout = () => dispatch({ type: ACTION_TYPES.USER_LOGOUT })
 
   const handleLangChange = (e) => dispatch({ type: e.target.value == 'he' ? LANG_HE : LANG_EN });
 
   return (
     <StyledNav dir="ltr" position="static">
       <Toolbar>
-        <Link href="/">
-          <a className="link">
-            <Typography variant="danger" color="danger">
-              Yosefus
-            </Typography>
-          </a>
-        </Link>
+        <MyLink href="/" className="link" >
+          <Typography variant="danger" color="danger">
+            Yosefus
+          </Typography>
+        </MyLink>
+
         <div style={{ flexGrow: 1 }}></div>
         <Switch color="secondary" checked={darkMode === 1} onChange={ChangeDarkHandler}></Switch>
 
@@ -62,20 +70,32 @@ export default function Header() {
           </Select>
         </FormControl>
 
-        <Link href="/">
-          <a className="linkNav">
-            {cart.cartItems.length ? (
-              <Badge color="secondary" badgeContent={cart.cartItems.length}>
-                cart
-              </Badge>
-            ) : (
-              'cart'
-            )}
-          </a>
-        </Link>
-        <Link href="/">
-          <a className="linkNav">login</a>
-        </Link>
+        {/* error */}
+        <MyLink href="/cart" className="linkNav" >
+          {cart.cartItems.length ? (
+            <Badge color="secondary" badgeContent={cart.cartItems.length}>{Text[lang].cart} </Badge>
+          ) : Text[lang].cart}
+        </MyLink>
+        {!user ?
+          <MyLink href="/login" className="linkNav">
+            {Text[lang].login}
+          </MyLink>
+          :
+          <>
+            <Button className='userBtn' onClick={handleMenu} color='inherit'>{user.name}</Button>
+            <Menu
+              anchorEl={menuState}
+              open={Boolean(menuState)}
+              onClose={handleMenu}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+              onClick={handleMenu}
+            >
+              <MenuItem >{Text[lang].profile}</MenuItem>
+              <MenuItem >{Text[lang].myAccount}</MenuItem>
+              <MenuItem onClick={handleLogout}>{Text[lang].logout}</MenuItem>
+            </Menu>
+          </>}
       </Toolbar>
     </StyledNav>
   );
