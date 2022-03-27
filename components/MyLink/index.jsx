@@ -3,7 +3,9 @@ import Link from 'next/link'
 
 function MyLink({ href, className, children }) {
    return (
-      <Link href={href}><a className={className ? className : ""}>{children}</a></Link>
+      <Link href={href ? href : "/"}>
+         <a className={className ? className : ""}>{children}</a>
+      </Link>
    )
 }
 

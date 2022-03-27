@@ -13,7 +13,9 @@ export const ACTION_TYPES = {
   ADD_TO_CART: 'add_to_cart',
   REMOVE_ITEM: "remove item",
   USER_LOGIN: "user login",
-  USER_LOGOUT: "user logout"
+  USER_LOGOUT: "user logout",
+  SAVE_ADDRESS_SHIPPING: "save shipping address",
+  SAVE_PAYMENT_METHOD: "save payment method"
 };
 
 function reducer(state, action) {
@@ -28,11 +30,15 @@ function reducer(state, action) {
       return { ...state, darkMode: 0 };
     }
 
-    case ACTION_TYPES.LANG_EN:
+    case ACTION_TYPES.LANG_EN: {
+      Cookies.set('lang', "en");
       return { ...state, lang: 'en' };
+    }
 
-    case ACTION_TYPES.LANG_HE:
+    case ACTION_TYPES.LANG_HE: {
+      Cookies.set('lang', "he");
       return { ...state, lang: 'he' };
+    }
 
     case ACTION_TYPES.ADD_TO_CART: {
       const newItem = action.payload;
@@ -61,6 +67,16 @@ function reducer(state, action) {
       return { ...state, user: null, cart: { cartItems: [] } }
     }
 
+    case ACTION_TYPES.SAVE_ADDRESS_SHIPPING: {
+      Cookies.set('shippingAddress', JSON.stringify(action.payload));
+      return { ...state, cart: { ...state.cart, shippingAddress: action.payload } }
+    }
+
+    case ACTION_TYPES.SAVE_PAYMENT_METHOD: {
+      Cookies.set('payMethod', action.payload);
+      return { ...state, cart: { ...state.cart, paymentMethod: action.payload } }
+    }
+
     default:
       return state;
   }
@@ -69,12 +85,15 @@ function reducer(state, action) {
 export default function StoreProvider({ children }) {
   const cartItems = Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : [],
     user = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null,
-    initialState = { darkMode: 0, lang: 'en', cart: { cartItems }, user };
+    shippingAddress = Cookies.get('shippingAddress') ? JSON.parse(Cookies.get('shippingAddress')) : null,
+    paymentMethod = Cookies.get('payMethod') ? Cookies.get('payMethod') : "",
+    initialState = { darkMode: 0, lang: "en", cart: { cartItems, shippingAddress, paymentMethod }, user };
 
   const [state, dispatch] = useReducer(reducer, initialState),
     value = { state, dispatch };
 
   useEffect(() => Cookies.get('darkMode') === "on" && dispatch({ type: ACTION_TYPES.DARK_MODE }), []);
+  useEffect(() => Cookies.get('lang') === "he" && dispatch({ type: ACTION_TYPES.LANG_HE }), []);
 
   const theme = createTheme({
     direction: 'rtl',

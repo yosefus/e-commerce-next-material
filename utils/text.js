@@ -82,3 +82,75 @@ export const login = {
     repass: "סיסמא בשנית"
   }
 }
+export const shipping = {
+  en: {
+    btn: "continue",
+    h1: "shipping address",
+    fullname: "full name",
+    address: "address",
+    postalCode: "postal code",
+    city: "city",
+    country: "country",
+  },
+  he: {
+    btn: "המשך",
+    h1: "כתובת למשלוח",
+    fullname: "שם מלא",
+    address: "כתובת",
+    postalCode: "מיקוד",
+    city: "עיר",
+    country: "מדינה",
+  }
+}
+export const payment = {
+  en: {
+    h1: "payment method",
+    paypal: "paypal",
+    cash: "cash",
+    continue: "continue",
+    back: "back"
+  },
+  he: {
+    h1: "שיטת תשלום",
+    paypal: "פייפל",
+    cash: "מזומן",
+    continue: "המשך",
+    back: "חזור"
+  }
+}
+
+export const placeOrder = {
+  en: {
+    h1: "place order",
+    shippingAddress: "shipping address",
+    paymentMethod: "payment method",
+    itemsOrder: "order items",
+    summary: "order summary",
+    img: "image",
+    name: "name",
+    quantity: "quantity",
+    price: "price",
+    items: "items",
+    tax: "tax",
+    shipping: "shipping",
+    total: "total",
+    summaryBtn: "place order"
+  },
+  he: {
+    h1: "תשלום",
+    shippingAddress: "כתובת למשלוח",
+    paymentMethod: "שיטת תשלום",
+    itemsOrder: "פריטים בסל",
+    summary: "סיכום הרכישה",
+    img: "תמונה",
+    name: "שם",
+    quantity: "כמות",
+    price: "מחיר",
+    items: "פריטים",
+    tax: "מס",
+    shipping: "משלוח",
+    total: "סך הכל",
+    summaryBtn: "תשלום"
+  }
+}
+

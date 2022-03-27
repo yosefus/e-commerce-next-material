@@ -4,6 +4,7 @@ import { Button, List, ListItem, TextField, Typography, Alert } from '@mui/mater
 import { ACTION_TYPES, Store } from '../utils/Store'
 import { apiReq } from '../functions/apiFunction'
 import { login as Text } from '../utils/text'
+import { CheckoutWizard } from '../components'
 // import { styled } from '@mui/system';
 
 
@@ -12,8 +13,6 @@ function Login() {
       [error, setError] = useState(),
       [login, setLogin] = useState(true),
       router = useRouter();
-
-
 
    useEffect(() => user && router.push(router.query.redirect || "/"), [user])
 
@@ -33,26 +32,27 @@ function Login() {
 
    return (
       <div>
+         {router?.query?.redirect == "/shipping" && <CheckoutWizard />}
          <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "auto" }}>
             <Typography component='h1' variant='h1'>{Text[lang][login ? "h1login" : "h1register"]}</Typography>
             <List dir='ltr' >
 
                {!login && <>
                   <ListItem>
-                     <TextField variant='outlined' fullWidth name='name' inputProps={{ type: "text" }} label={Text[lang].name}></TextField>
+                     <TextField variant='outlined' fullWidth name='name' required inputProps={{ type: "text" }} label={Text[lang].name}></TextField>
                   </ListItem>
                </>}
 
                <ListItem>
-                  <TextField variant='outlined' fullWidth name='email' inputProps={{ type: "email" }} label={Text[lang].email}></TextField>
+                  <TextField variant='outlined' fullWidth name='email' required inputProps={{ type: "email" }} label={Text[lang].email}></TextField>
                </ListItem>
                <ListItem>
-                  <TextField variant='outlined' fullWidth name='password' inputProps={{ type: "password" }} label={Text[lang].pass}></TextField>
+                  <TextField variant='outlined' fullWidth name='password' required inputProps={{ type: "password" }} label={Text[lang].pass}></TextField>
                </ListItem>
 
                {!login && <>
                   <ListItem>
-                     <TextField variant='outlined' fullWidth name='rePassword' inputProps={{ type: "password" }} label={Text[lang].repass}></TextField>
+                     <TextField variant='outlined' fullWidth name='rePassword' required inputProps={{ type: "password" }} label={Text[lang].repass}></TextField>
                   </ListItem>
                </>}
 

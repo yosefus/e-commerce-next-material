@@ -36,17 +36,23 @@ function CartScreen() {
     },
   });
 
+  const StyledH1 = styled(Typography)({
+    '&': {
+      textAlign: "center",
+      margin: "3rem 0"
+    },
+  });
+
   return (
     <div>
-      <Typography component={'h1'} variant={'h1'}>{Text[lang].title}</Typography>
+      <StyledH1 component={'h1'} variant={'h1'}>{Text[lang].title}</StyledH1>
       {!cart.cartItems.length ? (
         <div>
           {Text[lang].emptyMsg + " "}
           <Link href={'/'} passHref><Mlink variant='inherit'>{Text[lang].emptyLink} </Mlink></Link>
         </div>
       ) : (
-        <Grid container spacing={1}>
-
+        <Grid container spacing={3}>
           <Grid item md={9} xs={12}>
             <TableContainer>
               <Table>
