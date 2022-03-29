@@ -68,7 +68,7 @@ export default function Header() {
 
         {/* error */}
         <MyLink href="/cart" className="linkNav" >
-          {cart?.cartItems?.cartItems && cart.cartItems.length ? (
+          {cart?.cartItems && cart.cartItems.length ? (
             <Badge color="secondary" badgeContent={cart.cartItems.length}>{Text[lang].cart} </Badge>
           ) : Text[lang].cart}
         </MyLink>

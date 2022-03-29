@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { createContext, useReducer, useEffect } from 'react';
 import styles from './langStyle.module.css';
+import { setToken } from '../functions/apiFunction';
 
 export const Store = createContext();
 
@@ -12,6 +13,7 @@ export const ACTION_TYPES = {
   LANG_HE: 'he',
   ADD_TO_CART: 'add_to_cart',
   REMOVE_ITEM: "remove item",
+  CLEAR_CART: "clear cart",
   USER_LOGIN: "user login",
   USER_LOGOUT: "user logout",
   SAVE_ADDRESS_SHIPPING: "save shipping address",
@@ -56,8 +58,14 @@ function reducer(state, action) {
       return { ...state, cart: { ...state.cart, cartItems } };
     }
 
+    case ACTION_TYPES.CLEAR_CART: {
+      Cookies.remove('cartItems');
+      return { ...state, cart: { ...state.cart, cartItems: [] } };
+    }
+
     case ACTION_TYPES.USER_LOGIN: {
       Cookies.set('user', JSON.stringify(action.payload));
+      setToken(action.payload.token)
       return { ...state, user: action.payload }
     }
 
@@ -92,6 +100,7 @@ export default function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState),
     value = { state, dispatch };
 
+  useEffect(() => state.user && setToken(state.user.token), [state.user]);
   useEffect(() => Cookies.get('darkMode') === "on" && dispatch({ type: ACTION_TYPES.DARK_MODE }), []);
   useEffect(() => Cookies.get('lang') === "he" && dispatch({ type: ACTION_TYPES.LANG_HE }), []);
 

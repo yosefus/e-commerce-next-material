@@ -15,6 +15,10 @@ export const apiReq = async ({ path, body, method }) => {
     return data.data;
   } catch (error) {
     console.log(error.message || error);
+    const msgError = "sorry! something went wrong..."
+    if (!error.my) error.message = msgError
     return error
   }
 };
+
+export const setToken = (token) => axios.defaults.headers.common['Authorization'] = token

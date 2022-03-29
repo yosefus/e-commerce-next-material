@@ -25,7 +25,7 @@ function Login() {
       const res = await apiReq({ method: "post", path: `/users/${login ? "login" : "register"}`, body: values })
 
       console.log(res);
-      if (!res._id) return setError(res.msg)
+      if (!res._id) return setError(res.message)
 
       dispatch({ type: ACTION_TYPES.USER_LOGIN, payload: res })
    }

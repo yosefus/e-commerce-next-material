@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ACTION_TYPES, Store } from '../utils/Store';
-import { Button, TableCell, TableContainer, TableHead, TableRow, Typography, Card, List, ListItem, TableBody, Grid, Table } from '@mui/material';
+import { Button, TableCell, TableContainer, TableHead, TableRow, Typography, Card, List, ListItem, TableBody, Grid, Table, Alert, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 // import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -9,11 +9,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { MyLink, CheckoutWizard } from '../components'
 import { placeOrder as Text } from '../utils/text'
+import { apiReq } from '../functions/apiFunction';
 
 function PlaceOrder() {
    const { state: { cart, lang }, dispatch } = useContext(Store),
-      { shippingAddress: { fullName, address, city, country, postalCode }, paymentMethod } = cart,
-      router = useRouter();
+      { shippingAddress, paymentMethod } = cart,
+      router = useRouter(),
+      [error, setError] = useState(""),
+      [loading, setLoading] = useState("")
 
    useEffect(() => !paymentMethod && router.push('/payment'), [paymentMethod])
 
@@ -38,7 +41,20 @@ function PlaceOrder() {
          },
       });
 
-   const placeOrderHandler = () => { }
+   const placeOrderHandler = async () => {
+      setError("")
+      setLoading(true)
+      const res = await apiReq({ method: "post", path: "/orders", body: { shippingAddress: cart.shippingAddress, subtotalNum, tax, shippingPrice, totalPrice, cartItems: cart.cartItems, paymentMethod } })
+
+      if (!res._id) {
+         setError(res.message || res);
+      } else {
+         dispatch({ type: ACTION_TYPES.CLEAR_CART })
+         router.push(`/order/${res._id}`)
+      }
+
+      setLoading()
+   }
 
    return (
       <div>
@@ -51,7 +67,7 @@ function PlaceOrder() {
             {Text[lang].h1}
          </Typography>
 
-         <Grid container spacing={3}>
+         <Grid container spacing={3} >
             <Grid item md={9} xs={12}>
 
                <Card>
@@ -62,7 +78,7 @@ function PlaceOrder() {
                         </Typography>
                      </ListItem>
                      <ListItem>
-                        {fullName}{" "}, {address}{" "}, {city}{" "}, {country}{" "}, {postalCode}
+                        {shippingAddress.fullName}{" "}, {shippingAddress.address}{" "}, {shippingAddress.city}{" "}, {shippingAddress.country}{" "}, {shippingAddress.postalCode}
                      </ListItem>
                   </List>
                </Card>
@@ -173,6 +189,7 @@ function PlaceOrder() {
                         </Grid>
                      </ListItem>
 
+                     {error && <Alert dir='ltr' severity="error">{error}</Alert>}
                      <ListItem>
                         <Button
                            fullWidth
@@ -182,6 +199,7 @@ function PlaceOrder() {
                            {Text[lang]["summaryBtn"]}
                         </Button>
                      </ListItem>
+                     {loading && <ListItem> <CircularProgress style={{ margin: "0 auto" }} /></ListItem>}
                   </StyledList>
                </Card>
             </Grid>

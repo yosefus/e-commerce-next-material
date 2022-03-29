@@ -28,7 +28,7 @@ handler.post(async (req, res) => {
       result = { code: 200, success: true, data: sendUser };
    } catch (error) {
       console.log(error);
-      result = { code: error.code || 401, success: false, msg: error.my ? error.message : "something went wrong" || error, my: error.my };
+      result = { code: error.code || 401, success: false, message: error.my ? error.message : "something went wrong" || error, my: error.my };
    }
 
    res.send(result);
