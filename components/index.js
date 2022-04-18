@@ -8,3 +8,4 @@ export { default as PriceCard } from './ProductPage/PriceCard/PriceCard';
 export { default as AllProducts } from './AllProducts';
 export { default as MyLink } from './MyLink';
 export { default as CheckoutWizard } from './CheckoutWizard';
+export { default as Confirm } from './Confirm';

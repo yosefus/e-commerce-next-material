@@ -27,8 +27,8 @@ export const productPageText = {
 
 
 export const header = {
-  he: { logout: "התנתקות", profile: "פרופיל", cart: "עגלה", myAccount: "החשבון שלי", login: "התחברות" },
-  en: { logout: "logout", profile: "profile", cart: "cart", myAccount: "my account", login: "login" }
+  he: { logout: "התנתקות", profile: "פרופיל", cart: "עגלה", myOrders: "הזמנות קודמות", login: "התחברות" },
+  en: { logout: "logout", profile: "profile", cart: "cart", myOrders: "my orders", login: "login" }
 }
 
 export const cart = {
@@ -164,5 +164,34 @@ export const placeOrder = {
     paid: "שולם בתאריך",
     notPaid: "לא שולם"
   }
+}
+
+export const myOrders = {
+  en: {
+    h1: "my orders history",
+    id: "id",
+    date: "date",
+    total: "total",
+    paid: "paid",
+    delivered: "delivered",
+    action: "action",
+    yes: "yes",
+    no: "no",
+    details: "details",
+    deleteMessage: "are you sure you want to delete this order?"
+  },
+  he: {
+    h1: "הסטורית ההזמנות שלי",
+    id: "מזהה",
+    date: "תאריך",
+    total: "סך לתשלום",
+    paid: "שולם",
+    delivered: "נשלח",
+    action: "פעולות",
+    yes: "כן",
+    no: "לא",
+    details: "פרטים",
+    deleteMessage: "האם אתה בטוח שברצונך למחוק את ההזמנה הזו?"
+  },
 }
 

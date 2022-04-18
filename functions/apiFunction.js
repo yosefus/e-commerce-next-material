@@ -17,7 +17,7 @@ export const apiReq = async ({ path, body, method }) => {
     console.log(error.message || error);
     const msgError = "sorry! something went wrong..."
     if (!error.my) error.message = msgError
-    return error
+    return { ...error, error: true }
   }
 };
 

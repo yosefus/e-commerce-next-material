@@ -7,32 +7,21 @@ const handler = nc();
 
 handler.use(isAuth)
 
-handler.put(async (req, res) => {
+handler.delete(async (req, res) => {
    let result;
    try {
       await db.connect();
       const updatedOrder = await order.findByIdAndUpdate(req.query.id,
-         {
-            isPaid: true,
-            paidAt: Date.now(),
-            paymentResult: {
-               id: req.body.id,
-               status: req.body.status,
-               email_address: req.body.email_address,
-            }
-         }
-      );
+         { isDeleted: true }, { new: true });
 
       if (!updatedOrder._id) throw ({ code: 404, message: "order not found", my: true })
-
-      console.log("updatedOrder", updatedOrder);
 
       result = { code: 201, success: true, data: updatedOrder };
    } catch (error) {
       console.log(error);
-      result = { code: error.code || 500, success: false, message: error.message || error };
+      result = { code: error.code || 500, success: false, message: error.message || error, error: true };
    }
    res.send(result);
 });
 
-export default handler
+export default handler;

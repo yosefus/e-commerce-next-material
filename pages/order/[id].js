@@ -16,7 +16,6 @@ import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
 
 const reducer = (state, action) => {
-   console.log("reducer", action.type, action.payload);
    switch (action.type) {
       case "loading":
          return { ...state, loading: true, error: "" }
@@ -80,7 +79,7 @@ function Order({ params }) {
    // paypal function
    const onApprove = (data, actions) => actions.order.capture().then(async (details) => {
       dispatch({ type: "payReq" })
-      const updateOrder = await apiReq({ path: `orders/${orderId}/`, method: "put", body: details })
+      const updateOrder = await apiReq({ path: `orders/${orderId}/pay`, method: "put", body: details })
 
       if (!updateOrder._id) {
          const msg = `${updateOrder.message} ,we didn't update your paymant status, plaese contact us`

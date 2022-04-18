@@ -94,8 +94,8 @@ export default function Header() {
               transformOrigin={{ vertical: 'top', horizontal: 'left' }}
               onClick={handleMenu}
             >
-              <MenuItem >{Text[lang].profile}</MenuItem>
-              <MenuItem >{Text[lang].myAccount}</MenuItem>
+              <MenuItem > <MyLink href="/profile">{Text[lang].profile}</MyLink></MenuItem>
+              <MenuItem ><MyLink href="/my-orders">{Text[lang].myOrders}</MyLink></MenuItem>
               <MenuItem onClick={handleLogout}>{Text[lang].logout}</MenuItem>
             </Menu>
           </>}

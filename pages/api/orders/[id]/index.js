@@ -16,7 +16,7 @@ handler.get(async (req, res) => {
 
     const order = await Order.findById(req.query.id);
 
-    if (!req.user.isAdmin && req.user._id != order.user) throw ({ my: true, message: "sorry, is not your order to watch", code: 403 })
+    if (req.user._id != order.user) throw ({ my: true, message: "sorry, is not your order to watch", code: 403 })
 
     result = { code: 200, success: true, data: order };
 
