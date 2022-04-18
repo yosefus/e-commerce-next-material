@@ -121,6 +121,7 @@ export const payment = {
 
 export const placeOrder = {
   en: {
+    h1Order: "order no:",
     h1: "place order",
     shippingAddress: "shipping address",
     paymentMethod: "payment method",
@@ -134,9 +135,15 @@ export const placeOrder = {
     tax: "tax",
     shipping: "shipping",
     total: "total",
-    summaryBtn: "place order"
+    summaryBtn: "place order",
+    status: "status",
+    delivered: "delivered at",
+    notDelivered: "not delivered",
+    paid: "paid at",
+    notPaid: "not paid"
   },
   he: {
+    h1Order: "הזמנה מספר:",
     h1: "תשלום",
     shippingAddress: "כתובת למשלוח",
     paymentMethod: "שיטת תשלום",
@@ -150,7 +157,12 @@ export const placeOrder = {
     tax: "מס",
     shipping: "משלוח",
     total: "סך הכל",
-    summaryBtn: "תשלום"
+    summaryBtn: "תשלום",
+    status: "סטטוס",
+    delivered: "נמסר בתאריך",
+    notDelivered: "לא נמסר",
+    paid: "שולם בתאריך",
+    notPaid: "לא שולם"
   }
 }
 

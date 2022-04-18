@@ -8,13 +8,20 @@ import { header as Text } from '../../../utils/text'
 
 const { DARK_MODE, LANG_EN, LANG_HE, LIGHT_MODE } = ACTION_TYPES;
 
-const StyledNav = styled(AppBar)({
+const StyledNav = styled(AppBar)(({ theme }) => ({
+  '& .toolBar': {
+    [theme.breakpoints.down('sm')]: {
+      padding: "0"
+    }
+  },
   '& .link': {
     margin: '0 0 0 1rem',
     fontWeight: 'bold',
     fontSize: '1.5rem',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '0.9rem',
+    },
   },
-
   '& .linkNav': {
     margin: '0 1rem 0 0 ',
     textTransform: 'capitalize',
@@ -29,7 +36,7 @@ const StyledNav = styled(AppBar)({
   "& .userBtn": {
     textTransform: "initial"
   }
-});
+}));
 
 export default function Header() {
   const { state, dispatch } = useContext(Store),
@@ -46,7 +53,7 @@ export default function Header() {
 
   return (
     <StyledNav dir="ltr" position="static">
-      <Toolbar>
+      <Toolbar className='toolBar'>
         <MyLink href="/" className="link" >
           <Typography variant="danger" color="danger">
             Yosefus

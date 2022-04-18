@@ -10,6 +10,7 @@ import StoreProvider from '../utils/Store';
 // import { StoreProvider } from './../utils/Store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -30,9 +31,11 @@ function MyApp({ Component, pageProps }) {
     <StoreProvider>
       <CssBaseline />
       <LangPaper>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <PayPalScriptProvider deferLoading={true}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </PayPalScriptProvider>
         <ToastContainer />
       </LangPaper>
     </StoreProvider>

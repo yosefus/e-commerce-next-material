@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const OederSchema = new mongoose.Schema(
+const OrderSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     cartItems: [{
@@ -26,11 +26,16 @@ const OederSchema = new mongoose.Schema(
     isDelivered: { type: Boolean, default: false },
     paidAt: { type: Date },
     DeliveredAt: { type: Date },
+    paymentResult: {
+      id: { type: String },
+      status: { type: String },
+      email_address: { type: String },
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Oeder = mongoose.models.Oeder || mongoose.model('Oeder', OederSchema);
-export default Oeder;
+const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);
+export default Order;

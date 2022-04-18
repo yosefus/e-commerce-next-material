@@ -25,6 +25,7 @@ function AddToCart({ product, size, variant, color, fullWidth }) {
 
     const item = await apiReq({ path: `/products/${product._id}`, method: 'get' });
     if (item.countInStock < quantity) return alert(`sorry. we don't have more from this product in stock`);
+    if (!item._id) return alert("sorry someting went wrong")
 
     dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quantity } });
 

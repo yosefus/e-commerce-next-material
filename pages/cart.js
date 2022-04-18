@@ -24,6 +24,8 @@ function CartScreen() {
     dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: { ...item, quantity } });
   }
 
+  // console.log(cart.cartItems);
+
   const deleteItem = (item) => dispatch({ type: ACTION_TYPES.REMOVE_ITEM, payload: item });
 
   const checkout = () => router.push("/shipping")
@@ -49,7 +51,7 @@ function CartScreen() {
       {!cart.cartItems.length ? (
         <div>
           {Text[lang].emptyMsg + " "}
-          <Link href={'/'} passHref><Mlink variant='inherit'>{Text[lang].emptyLink} </Mlink></Link>
+          <Link href={'/'} passHref><Mlink variant='inherit' color="secondary">{Text[lang].emptyLink} </Mlink></Link>
         </div>
       ) : (
         <Grid container spacing={3}>
@@ -102,7 +104,7 @@ function CartScreen() {
                 <ListItem>
                   <Typography variant='h2'>{Text[lang]["subtotal"]} {itemsNum} {Text[lang]["itemsInCart"]}: ${subtotalNum} </Typography>
                 </ListItem>
-                <ListItem><Button onClick={checkout} variant='contained' color='secondary'>{Text[lang]["checkout"]}</Button></ListItem>
+                <ListItem><Button onClick={checkout} fullWidth variant='contained' color='secondary'>{Text[lang]["checkout"]}</Button></ListItem>
               </List>
             </Card>
           </Grid>

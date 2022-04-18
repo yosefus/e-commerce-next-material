@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@mui/styles": "^5.2.3",
+    "@paypal/react-paypal-js": "^7.6.0",
     "aos": "^2.3.4",
     "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.6",

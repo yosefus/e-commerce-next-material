@@ -5,10 +5,16 @@ import { Store } from '../../utils/Store';
 import { AddToCart, MyLink } from '..';
 
 function ProductBox({ data }) {
-  const { state: { lang } } = useContext(Store);
-  const { slug, name, price, image } = data;
+  const { state: { lang } } = useContext(Store),
+    { slug, name, price, image } = data;
 
   const StyledCard = styled(Grid)(() => ({
+    "& .card": {
+      minHeight: "370px"
+    },
+    "& .action": {
+      marginTop: "auto"//not working
+    },
     '& .name': {
       fontWeight: 'bold',
       textTransform: 'uppercase',
@@ -20,7 +26,7 @@ function ProductBox({ data }) {
 
   return (
     <StyledCard item md={4}>
-      <Card>
+      <Card className='card'>
         <MyLink href={`/product/${slug}`}>
           <CardActionArea>
             <CardMedia component="img" image={image} title={name[lang]}></CardMedia>
@@ -29,7 +35,7 @@ function ProductBox({ data }) {
         <CardContent>
           <Typography className="name">{name[lang]}</Typography>
         </CardContent>
-        <CardActions>
+        <CardActions className='action'>
           <Typography>
             {lang == 'en' ? '$' : '₪'} {price}
           </Typography>

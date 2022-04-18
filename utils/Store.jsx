@@ -72,7 +72,7 @@ function reducer(state, action) {
     case ACTION_TYPES.USER_LOGOUT: {
       Cookies.remove('user');
       Cookies.set('cartItems', JSON.stringify([]));
-      return { ...state, user: null, cart: { cartItems: [] } }
+      return { ...state, user: null, cart: { cartItems: [], shippingAddress: {}, paymentMethod: "" } }
     }
 
     case ACTION_TYPES.SAVE_ADDRESS_SHIPPING: {
@@ -124,6 +124,21 @@ export default function StoreProvider({ children }) {
     },
     palette: {
       mode: state.darkMode ? 'dark' : 'light',
+      // ...(!state.darkMode
+      //   ? {
+      //     background: {
+      //       default: "#fff",
+      //       paper: "#909090",
+      //       card: "#fff"
+      //     },
+      //   }
+      //   : {
+
+      //     text: {
+      //       primary: '#fff',
+      //       secondary: '#f5f5f5',
+      //     },
+      //   }),
       primary: {
         main: '#330033',
       },

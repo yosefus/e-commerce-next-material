@@ -18,7 +18,10 @@ function PlaceOrder() {
       [error, setError] = useState(""),
       [loading, setLoading] = useState("")
 
-   useEffect(() => !paymentMethod && router.push('/payment'), [paymentMethod])
+   useEffect(() => {
+      !paymentMethod && router.push('/payment')
+      !cart.cartItems.length && router.push("/cart")
+   }, [paymentMethod, cart.cartItems])
 
    const round2 = num => Math.round(num * 100 + Number.EPSILON) / 100,
       itemsNum = cart.cartItems.reduce((acc, c) => acc + c.quantity, 0),
@@ -39,7 +42,10 @@ function PlaceOrder() {
          '& .price': {
             textAlign: lang === 'he' ? 'left' : 'right',
          },
-      });
+      }),
+      StyledContainer = styled("div")({
+         "& .card": { margin: "1rem 0" }
+      })
 
    const placeOrderHandler = async () => {
       setError("")
@@ -57,7 +63,7 @@ function PlaceOrder() {
    }
 
    return (
-      <div>
+      <StyledContainer>
          <CheckoutWizard activeStep={3} />
 
          <Typography
@@ -70,7 +76,7 @@ function PlaceOrder() {
          <Grid container spacing={3} >
             <Grid item md={9} xs={12}>
 
-               <Card>
+               <Card className='card'>
                   <List>
                      <ListItem>
                         <Typography variant='h2' component="h2">
@@ -80,10 +86,11 @@ function PlaceOrder() {
                      <ListItem>
                         {shippingAddress.fullName}{" "}, {shippingAddress.address}{" "}, {shippingAddress.city}{" "}, {shippingAddress.country}{" "}, {shippingAddress.postalCode}
                      </ListItem>
+
                   </List>
                </Card>
 
-               <Card>
+               <Card className='card'>
                   <List>
                      <ListItem>
                         <Typography variant='h2' component="h2">
@@ -96,7 +103,7 @@ function PlaceOrder() {
                   </List>
                </Card>
 
-               <Card>
+               <Card className='card'>
                   <List>
                      <ListItem>
                         <Typography variant='h2' component="h2">{Text[lang].itemsOrder}</Typography>
@@ -139,7 +146,7 @@ function PlaceOrder() {
             </Grid>
 
             <Grid item md={3} xs={12} style={{ textAlign: lang === "en" ? "left" : "right" }}>
-               <Card>
+               <Card className='card'>
                   <StyledList>
                      <ListItem>
                         <Typography style={{ margin: "1rem auto" }} variant='h2'>{Text[lang]["summary"]} </Typography>
@@ -206,7 +213,7 @@ function PlaceOrder() {
 
          </Grid>
 
-      </div >
+      </StyledContainer >
 
    )
 }
