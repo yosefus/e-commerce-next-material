@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ACTION_TYPES, Store } from '../utils/Store';
-import { Button, TableCell, TableContainer, TableHead, TableRow, Typography, Card, List, ListItem, TableBody, Grid, Table, Alert, CircularProgress } from '@mui/material';
+// material
+import {
+   Button, Card, List, ListItem, Grid, Alert, CircularProgress
+} from '@mui/material';
 import { styled } from '@mui/system';
-// import Link from 'next/link';
+// next 
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-// import { apiReq } from '../functions/apiFunction';
 import { useRouter } from 'next/router';
-import { MyLink, CheckoutWizard } from '../components'
+
+import { ACTION_TYPES, Store } from '../utils/Store';
+import { CheckoutWizard, Title, OrderSummary, ShippingInfo, PaymentInfo, TableItems } from '../components'
 import { placeOrder as Text } from '../utils/text'
 import { apiReq } from '../functions/apiFunction';
 
@@ -29,23 +31,13 @@ function PlaceOrder() {
       tax = round2(subtotalNum * 0.18), shippingPrice = 10,
       totalPrice = subtotalNum + tax + shippingPrice
 
-   const StyledCell = styled(TableCell)({
-      '&': {
-         padding: 0,
-         textAlign: "center",
-      },
-   }),
-      StyledList = styled(List)({
-         '& .title': {
-            textAlign: lang === 'he' ? 'right' : 'left',
-         },
-         '& .price': {
-            textAlign: lang === 'he' ? 'left' : 'right',
-         },
-      }),
-      StyledContainer = styled("div")({
-         "& .card": { margin: "1rem 0" }
-      })
+   const StyledList = styled(List)({
+      '& .title': { textAlign: lang === 'he' ? 'right' : 'left', },
+      '& .price': { textAlign: lang === 'he' ? 'left' : 'right', },
+   }), StyledContainer = styled("div")({
+      h2: { fontWeight: "bold" },
+      "& .card": { margin: "1rem 0" }
+   })
 
    const placeOrderHandler = async () => {
       setError("")
@@ -65,144 +57,28 @@ function PlaceOrder() {
    return (
       <StyledContainer>
          <CheckoutWizard activeStep={3} />
-
-         <Typography
-            style={{ margin: "2rem 0", textAlign: "center" }}
-            component={'h1'}
-            variant={'h1'}>
-            {Text[lang].h1}
-         </Typography>
-
+         <Title title={Text[lang].h1} />
          <Grid container spacing={3} >
+
             <Grid item md={9} xs={12}>
+               {/* shipping address */}
+               <ShippingInfo {...{ lang, Text, shippingAddress }} />
 
-               <Card className='card'>
-                  <List>
-                     <ListItem>
-                        <Typography variant='h2' component="h2">
-                           {Text[lang].shippingAddress}
-                        </Typography>
-                     </ListItem>
-                     <ListItem>
-                        {shippingAddress.fullName}{" "}, {shippingAddress.address}{" "}, {shippingAddress.city}{" "}, {shippingAddress.country}{" "}, {shippingAddress.postalCode}
-                     </ListItem>
+               {/* payment method */}
+               <PaymentInfo {...{ Text, paymentMethod, lang }} />
 
-                  </List>
-               </Card>
-
-               <Card className='card'>
-                  <List>
-                     <ListItem>
-                        <Typography variant='h2' component="h2">
-                           {Text[lang].paymentMethod}
-                        </Typography>
-                     </ListItem>
-                     <ListItem>
-                        {paymentMethod}
-                     </ListItem>
-                  </List>
-               </Card>
-
-               <Card className='card'>
-                  <List>
-                     <ListItem>
-                        <Typography variant='h2' component="h2">{Text[lang].itemsOrder}</Typography>
-                     </ListItem>
-                     <ListItem>
-                        <TableContainer>
-                           <Table>
-                              <TableHead>
-                                 <TableRow>
-                                    <StyledCell>{Text[lang]['img']}</StyledCell>
-                                    <StyledCell>{Text[lang]['name']}</StyledCell>
-                                    <StyledCell>{Text[lang]['quantity']}</StyledCell>
-                                    <StyledCell>{Text[lang]['price']}</StyledCell>
-                                 </TableRow>
-                              </TableHead>
-
-                              <TableBody>
-                                 {cart.cartItems.map((item, i) => <TableRow key={`table${i}`}>
-                                    <StyledCell>
-                                       <MyLink href={`/product/${item.slug}`}>
-                                          <Image src={item.image} width={60} height={60} alt={item.name["en"]} />
-                                       </MyLink>
-                                    </StyledCell>
-                                    <StyledCell>
-                                       <MyLink href={`/product/${item.slug}`}>
-                                          <Typography color="secondary">{item.name[lang]} </Typography>
-                                       </MyLink>
-                                    </StyledCell>
-                                    <StyledCell>
-                                       <Typography>{item.quantity}</Typography>
-                                    </StyledCell>
-                                    <StyledCell>${item['price']}</StyledCell>
-                                 </TableRow>)}
-                              </TableBody>
-                           </Table>
-                        </TableContainer>
-                     </ListItem>
-                  </List>
-               </Card>
+               {/* items table */}
+               <TableItems {...{ lang, cartItems: cart.cartItems, Text }} />
             </Grid>
 
+            {/* order summary */}
             <Grid item md={3} xs={12} style={{ textAlign: lang === "en" ? "left" : "right" }}>
-               <Card className='card'>
+               <Card variant='outlined' className='card'>
                   <StyledList>
-                     <ListItem>
-                        <Typography style={{ margin: "1rem auto" }} variant='h2'>{Text[lang]["summary"]} </Typography>
-                     </ListItem>
-
-                     <ListItem>
-                        <Grid container>
-                           <Grid item xs={6}>
-                              <Typography className='title'>{Text[lang]["items"]}</Typography>
-                           </Grid>
-                           <Grid item xs={6}>
-                              <Typography className='price'>{itemsNum}</Typography>
-                           </Grid>
-                        </Grid>
-                     </ListItem>
-
-                     <ListItem>
-                        <Grid container>
-                           <Grid item xs={6}>
-                              <Typography className='title'>{Text[lang]["tax"]}</Typography>
-                           </Grid>
-                           <Grid item xs={6}>
-                              <Typography className='price'>${tax}</Typography>
-                           </Grid>
-                        </Grid>
-                     </ListItem>
-
-                     <ListItem>
-                        <Grid container>
-                           <Grid item xs={6}>
-                              <Typography className='title'>{Text[lang]["shipping"]}</Typography>
-                           </Grid>
-                           <Grid item xs={6}>
-                              <Typography className='price'>${shippingPrice}</Typography>
-                           </Grid>
-                        </Grid>
-                     </ListItem>
-
-                     <ListItem>
-                        <Grid container>
-                           <Grid item xs={6}>
-                              <Typography className='title'> <strong>{Text[lang]["total"]}</strong></Typography>
-                           </Grid>
-                           <Grid item xs={6}>
-                              <Typography className='price'><strong>${totalPrice} </strong></Typography>
-                           </Grid>
-                        </Grid>
-                     </ListItem>
-
+                     <OrderSummary {...{ Text, lang, itemsNum, tax, totalPrice, shippingPrice }} />
                      {error && <Alert dir='ltr' severity="error">{error}</Alert>}
                      <ListItem>
-                        <Button
-                           fullWidth
-                           onClick={placeOrderHandler}
-                           variant='contained'
-                           color='secondary'>
+                        <Button fullWidth onClick={placeOrderHandler} variant='contained' color='secondary'>
                            {Text[lang]["summaryBtn"]}
                         </Button>
                      </ListItem>

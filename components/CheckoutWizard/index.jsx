@@ -1,4 +1,5 @@
 import { Step, StepLabel, Stepper } from '@mui/material'
+import { styled } from '@mui/styles';
 import React, { useContext } from 'react'
 import { Store } from '../../utils/Store'
 
@@ -14,13 +15,17 @@ const Text = {
 function CheckoutWizard({ activeStep = 0 }) {
    const { state: { lang } } = useContext(Store);
 
+   const StyledStepper = styled(Stepper)({
+      margin: "1rem 0"
+   })
+
    return (
-      <Stepper style={{ margin: "1rem 0", background: "transparent" }} dir='ltr' activeStep={activeStep} alternativeLabel>
+      <StyledStepper dir='ltr' activeStep={activeStep} alternativeLabel>
          {Text[lang].stepArr.map(step => (
-            <Step key={step}>
+            <Step className='vi' key={step}>
                <StepLabel>{step}</StepLabel>
             </Step>))}
-      </Stepper>
+      </StyledStepper>
    )
 }
 

@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { createContext, useReducer, useEffect } from 'react';
 import styles from './langStyle.module.css';
-import { setToken } from '../functions/apiFunction';
+import { apiReq, setToken } from '../functions/apiFunction';
 
 export const Store = createContext();
 
@@ -100,7 +100,16 @@ export default function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState),
     value = { state, dispatch };
 
-  useEffect(() => state.user && setToken(state.user.token), [state.user]);
+  // useEffect(() => state.user && setToken(state.user.token), [state.user]);
+  useEffect(() => {
+    if (state.user) {
+      setToken(state.user.token)
+      apiReq({ path: "/users/auth", method: "post" }).then(
+        data => !data.success && dispatch({ type: ACTION_TYPES.USER_LOGOUT }))
+      // apiReq({ path: "/seed", method: "get" })
+    }
+  }, [state.user]);
+
   useEffect(() => Cookies.get('darkMode') === "on" && dispatch({ type: ACTION_TYPES.DARK_MODE }), []);
   useEffect(() => Cookies.get('lang') === "he" && dispatch({ type: ACTION_TYPES.LANG_HE }), []);
 

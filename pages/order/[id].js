@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useReducer } from 'react';
-import { Store } from '../../utils/Store';
-import {
-   TableCell, TableContainer, TableHead, TableRow, Typography,
-   Card, List, ListItem, TableBody, Grid, Table, CircularProgress, Alert
-} from '@mui/material';
+// material
+import { Card, List, ListItem, Grid, CircularProgress, Alert } from '@mui/material';
 import { styled } from '@mui/system';
-// import Link from 'next/link';
+// next
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import { apiReq } from '../../functions/apiFunction';
 import { useRouter } from 'next/router';
-import { MyLink/* , CheckoutWizard */ } from '../../components'
+
+import { Store } from '../../utils/Store';
+import { apiReq } from '../../functions/apiFunction';
+import { OrderSummary, PaymentInfo, ShippingInfo, TableItems, Title } from '../../components'
 import { placeOrder as Text } from '../../utils/text'
+
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
 
@@ -98,13 +97,10 @@ function Order({ params }) {
       toast.error(msg)
    }
 
-   const StyledCell = styled(TableCell)({
-      '&': { padding: 0, textAlign: "center" },
+   const StyledList = styled(List)({
+      '& .title': { textAlign: lang === 'he' ? 'right' : 'left' },
+      '& .price': { textAlign: lang === 'he' ? 'left' : 'right' },
    }),
-      StyledList = styled(List)({
-         '& .title': { textAlign: lang === 'he' ? 'right' : 'left' },
-         '& .price': { textAlign: lang === 'he' ? 'left' : 'right' },
-      }),
       StyledDiv = styled(Grid)({
          "& .fullWidth": { width: "100%" },
          "& h1, h2, h3, h4, h5, h6": { fontWeight: "bold" },
@@ -112,157 +108,35 @@ function Order({ params }) {
       })
 
    if (error) return <div></div>
-   if (loading) return <div></div>
+   if (loading) return <CircularProgress />
 
    if (order._id) {
       return (
          <StyledDiv>
-            {/* <CheckoutWizard activeStep={3} /> */}
-
-            <Typography
-               style={{ margin: "2rem 0", textAlign: "center" }}
-               component={'h1'}
-               variant={'h1'}>
-               {Text[lang].h1Order}{orderId}
-            </Typography>
-
-            {/* status and shipping data */}
+            <Title title={`${Text[lang].h1Order} ${orderId}`} />
 
             <Grid container spacing={3} >
+
                <Grid item md={9} xs={12}>
-                  <Card className='card'>
-                     <List>
-                        <ListItem>
-                           <Typography variant='h2' component="h2">
-                              {Text[lang].shippingAddress}
-                           </Typography>
-                        </ListItem>
-                        <ListItem>
-                           {shippingAddress.fullName}, {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.country}, {shippingAddress.postalCode}
-                        </ListItem>
-                        <ListItem>
-                           <Typography fontWeight="bold">  {Text[lang].status}: </Typography>
-                           {isDelivered ? ` ${Text[lang]["delivered"]} ${DeliveredAt}` : ` ${Text[lang]["notDelivered"]}`}
-                        </ListItem>
-                     </List>
-                  </Card>
-
-                  {/* payment data */}
-
-                  <Card className='card'>
-                     <List>
-                        <ListItem>
-                           <Typography variant='h2' component="h2">
-                              {Text[lang].paymentMethod}
-                           </Typography>
-                        </ListItem>
-                        <ListItem>
-                           {paymentMethod}
-                        </ListItem>
-                        <ListItem>
-                           <Typography fontWeight="bold">  {Text[lang].status}: </Typography>
-                           {isPaid ? ` ${Text[lang]["paid"]} ${paidAt} ` : ` ${Text[lang]["notPaid"]}`}
-                        </ListItem>
-                     </List>
-                  </Card>
-
+                  {/* shipping address */}
+                  <ShippingInfo {...{
+                     lang, Text, shippingAddress,
+                     status: isDelivered ? ` ${Text[lang]["delivered"]} ${DeliveredAt}` : ` ${Text[lang]["notDelivered"]}`
+                  }} />
+                  {/* payment method */}
+                  <PaymentInfo {...{
+                     Text, paymentMethod, lang,
+                     status: isPaid ? ` ${Text[lang]["paid"]} ${paidAt} ` : ` ${Text[lang]["notPaid"]}`
+                  }} />
                   {/* items table */}
-
-                  <Card className='card'>
-                     <List>
-                        <ListItem>
-                           <Typography variant='h2' component="h2">{Text[lang].itemsOrder}</Typography>
-                        </ListItem>
-                        <ListItem>
-                           <TableContainer>
-                              <Table>
-                                 <TableHead>
-                                    <TableRow>
-                                       <StyledCell>{Text[lang]['img']}</StyledCell>
-                                       <StyledCell>{Text[lang]['name']}</StyledCell>
-                                       <StyledCell>{Text[lang]['quantity']}</StyledCell>
-                                       <StyledCell>{Text[lang]['price']}</StyledCell>
-                                    </TableRow>
-                                 </TableHead>
-
-                                 <TableBody>
-                                    {order.cartItems.map((item, i) => <TableRow key={`table${i}`}>
-                                       <StyledCell>
-                                          <MyLink href={`/product/${item.slug}`}>
-                                             <Image src={item.image} width={60} height={60} alt={item.name["en"]} />
-                                          </MyLink>
-                                       </StyledCell>
-                                       <StyledCell>
-                                          <MyLink href={`/product/${item.slug}`}>
-                                             <Typography color="secondary">{item.name[lang]} </Typography>
-                                          </MyLink>
-                                       </StyledCell>
-                                       <StyledCell>
-                                          <Typography>{item.quantity}</Typography>
-                                       </StyledCell>
-                                       <StyledCell>${item['price']}</StyledCell>
-                                    </TableRow>)}
-                                 </TableBody>
-                              </Table>
-                           </TableContainer>
-                        </ListItem>
-                     </List>
-                  </Card>
+                  <TableItems {...{ lang, cartItems: order.cartItems, Text }} />
                </Grid>
 
                {/* detailes side bar */}
-
                <Grid item md={3} xs={12} style={{ textAlign: lang === "en" ? "left" : "right" }}>
-                  <Card className='card'>
+                  <Card variant='outlined' className='card'>
                      <StyledList>
-                        <ListItem>
-                           <Typography style={{ margin: "1rem auto" }} variant='h2'>{Text[lang]["summary"]} </Typography>
-                        </ListItem>
-
-                        <ListItem>
-                           <Grid container>
-                              <Grid item xs={6}>
-                                 <Typography className='title'>{Text[lang]["items"]}</Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                 <Typography className='price'>{itemsNum}</Typography>
-                              </Grid>
-                           </Grid>
-                        </ListItem>
-
-                        <ListItem>
-                           <Grid container>
-                              <Grid item xs={6}>
-                                 <Typography className='title'>{Text[lang]["tax"]}</Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                 <Typography className='price'>${tax}</Typography>
-                              </Grid>
-                           </Grid>
-                        </ListItem>
-
-                        <ListItem>
-                           <Grid container>
-                              <Grid item xs={6}>
-                                 <Typography className='title'>{Text[lang]["shipping"]}</Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                 <Typography className='price'>${shippingPrice}</Typography>
-                              </Grid>
-                           </Grid>
-                        </ListItem>
-
-                        <ListItem>
-                           <Grid container>
-                              <Grid item xs={6}>
-                                 <Typography className='title'> <strong>{Text[lang]["total"]}</strong></Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                 <Typography className='price'><strong>${totalPrice} </strong></Typography>
-                              </Grid>
-                           </Grid>
-                        </ListItem>
-
+                        <OrderSummary {...{ Text, lang, itemsNum, tax, totalPrice, shippingPrice }} />
                         <ListItem>
                            <Alert severity="error">this website is fake, pay with paypal is not connected.</Alert>
                         </ListItem>

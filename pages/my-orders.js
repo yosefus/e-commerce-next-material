@@ -3,14 +3,14 @@ import React, { useContext, useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 // material
-import { Alert, Button, Card, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Alert, Button, Card, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { styled } from '@mui/system';
+import { DeleteForeverOutlined } from '@mui/icons-material';
 
 import { Store } from '../utils/Store';
 import { apiReq } from '../functions/apiFunction';
 import { myOrders as Text } from '../utils/text';
-import { Confirm, MyLink } from '../components';
-import { styled } from '@mui/system';
-import { DeleteForeverOutlined } from '@mui/icons-material';
+import { Confirm, MyLink, Title } from '../components';
 
 const reducer = (state, action) => {
    switch (action.type) {
@@ -58,19 +58,9 @@ function MyOrders() {
    }
 
    const StyledDiv = styled("div")({
-      "& .head": {
-         display: "flex", justifyContent: "center"
-      },
-      "h1": {
-         fontSize: "2rem",
-         margin: "2rem auto"
-      },
-      "& td, th": {
-         textAlign: "start"
-      },
-      "& tr:nth-of-type(even)": {
-         background: "rgba(0,0,0,0.2)"
-      },
+      "& .head": { display: "flex", justifyContent: "center" },
+      "& td, th": { textAlign: "start" },
+      "& tr:nth-of-type(even)": { background: "rgba(0,0,0,0.2)" },
       ".card": { margin: "0 0 2rem 0" },
       ".action": { display: "flex", gap: ".5rem" }
    })
@@ -80,14 +70,14 @@ function MyOrders() {
 
          <div className='head'>
             <div>
-               <Typography textAlign="center" variant="h1">{Text[lang].h1}</Typography>
-               {error && <Alert severity="error">{error}</Alert>}
+               <Title title={Text[lang].h1} />
+               {error && <Alert sx={{ margin: "0 auto" }} severity="error">{error}</Alert>}
                {loading && <CircularProgress />}
             </div>
          </div>
 
          {orders.length ?
-            <Card className='card'>
+            <Card variant='outlined' className='card'>
                <TableContainer>
                   <Table>
                      <TableHead>
@@ -115,12 +105,12 @@ function MyOrders() {
                               </TableCell>
                               <TableCell className='action'>
                                  <MyLink href={`/order/${order._id}`}>
-                                    <Button >
+                                    <Button variant='contained'  >
                                        {Text[lang]["details"]}
                                     </Button>
                                  </MyLink>
                                  <Confirm
-                                    btnText={<DeleteForeverOutlined />}
+                                    btnText={<DeleteForeverOutlined color='secondary' />}
                                     msgText={Text[lang]["deleteMessage"]}
                                     onApprove={() => deleteOrder(order._id)}
                                  />

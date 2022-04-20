@@ -5,12 +5,12 @@ import { AddToCart } from '../..';
 export default function PriceCard({ textData, product }) {
   const { priceText, price, ststusText, countInStock, inStockText, unAvailableText } = textData;
 
-  const StyledCard = styled(Card)(({ theme }) => ({
-    boxShadow: theme.styling.boxShadow,
+  const StyledCard = styled(Card)((/* { theme } */) => ({
+    // boxShadow: theme.styling.boxShadow,
   }));
 
   return (
-    <StyledCard>
+    <StyledCard variant="outlined">
       <List>
         <ListItem>
           <Grid container>

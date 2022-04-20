@@ -13,7 +13,6 @@ handler.get(async (req, res) => {
 
    try {
       await db.connect();
-
       const orders = await Order.find({ user: req.user._id, isDeleted: false });
       if (req.user._id != orders[0].user) throw ({ my: true, message: "sorry, is not your order to watch", code: 403 })
       result = { code: 200, success: true, data: orders };

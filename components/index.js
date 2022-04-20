@@ -9,3 +9,8 @@ export { default as AllProducts } from './AllProducts';
 export { default as MyLink } from './MyLink';
 export { default as CheckoutWizard } from './CheckoutWizard';
 export { default as Confirm } from './Confirm';
+export { default as Title } from './Title';
+export { default as OrderSummary } from './OrderComp/OrderSummary';
+export { default as ShippingInfo } from './OrderComp/ShippingInfo';
+export { default as PaymentInfo } from './OrderComp/PaymentInfo';
+export { default as TableItems } from './OrderComp/TableItems';

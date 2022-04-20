@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const apiReq = async ({ path, body, method }) => {
   try {
@@ -14,6 +15,7 @@ export const apiReq = async ({ path, body, method }) => {
 
     return data.data;
   } catch (error) {
+    if (error.code == 401) toast.error("your token is not valid, please log in again")
     console.log(error.message || error);
     const msgError = "sorry! something went wrong..."
     if (!error.my) error.message = msgError

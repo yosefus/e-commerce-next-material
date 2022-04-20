@@ -8,7 +8,7 @@ import { PriceCard, ProductDescription } from './../../components';
 // multi lang text
 import { productPageText as Text } from './../../utils/text';
 
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { Store } from '../../utils/Store';
 import db from '../../server/db';
@@ -17,19 +17,16 @@ import Product from '../../server/models/product';
 function ProductPage({ product }) {
   const { state: { lang } } = useContext(Store);
 
-  if (!product) return <div>not found</div>;
-
+  if (!product._id) return <div>not found</div>;
   const { name, description, image } = product;
 
+
   const StyledGrid = styled(Grid)(({ theme }) => ({
-    h2: {
-      textTransform: 'capitalize',
-    },
+    h2: { textTransform: 'capitalize', },
     '& .big-image': {
       border: '1px solid #26262650',
-      boxShadow: theme.styling.boxShadow,
-      borderRadius: '20px',
-      height: '60vh',
+      borderRadius: '5px',
+      height: '50vh',
       position: 'relative',
       overflow: 'hidden',
       [theme.breakpoints.down('sm')]: {
@@ -45,10 +42,11 @@ function ProductPage({ product }) {
       textTransform: 'capitalize',
       textAlign: 'start !important',
     },
-    li: {
-      textAlign: lang === 'he' ? 'right' : 'left',
-    },
-  }));
+    li: { textAlign: lang === 'he' ? 'right' : 'left', },
+  })),
+    StyledDiv = styled("div")({
+      h1: { margin: "2rem 0" }
+    })
 
   return (
     <>
@@ -56,7 +54,9 @@ function ProductPage({ product }) {
         <title>{name['en']}</title>
         <meta name="description" content={Text['en']['description']} />
       </Head>
-      <div style={{ margin: '20px 0' }}>
+
+      <StyledDiv style={{ margin: '20px 0' }}>
+        <Typography variant='h1' component="h1">{product.slug}</Typography>
         <Grid container spacing={1}>
           <StyledGrid item md={6} xs={12}>
             <div className="big-image">
@@ -72,7 +72,7 @@ function ProductPage({ product }) {
             <PriceCard product={product} textData={{ ...Text[lang], ...product }} />
           </StyledGrid>
         </Grid>
-      </div>
+      </StyledDiv>
     </>
   );
 }
@@ -83,6 +83,6 @@ export async function getServerSideProps({ params }) {
   const { slug } = params;
   await db.connect();
   const productsDoc = await Product.findOne({ isDeleted: false, slug }).lean();
-  const product = db.convertMongoDoc(productsDoc);
+  const product = productsDoc ? db.convertMongoDoc(productsDoc) : {}
   return { props: { product } };
 }

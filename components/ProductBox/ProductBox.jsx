@@ -9,8 +9,11 @@ function ProductBox({ data }) {
     { slug, name, price, image } = data;
 
   const StyledCard = styled(Grid)(() => ({
-    "& .card": {
-      minHeight: "370px"
+    ".img": {
+      backgroundPosition: "center center",
+      backgroundSize: "cover",
+      width: "100%",
+      aspectRatio: "7/4"
     },
     "& .action": {
       marginTop: "auto"//not working
@@ -25,11 +28,12 @@ function ProductBox({ data }) {
   }));
 
   return (
-    <StyledCard item md={4}>
-      <Card className='card'>
+    <StyledCard item md={4} xs={12}>
+      <Card variant="outlined" className='card'>
         <MyLink href={`/product/${slug}`}>
           <CardActionArea>
-            <CardMedia component="img" image={image} title={name[lang]}></CardMedia>
+            {/* <CardMedia component="img"  image={image} title={name[lang]}></CardMedia> */}
+            <CardMedia className='img' component="div" style={{ backgroundImage: `url(${image})` }} image={image} title={name[lang]}></CardMedia>
           </CardActionArea>
         </MyLink>
         <CardContent>

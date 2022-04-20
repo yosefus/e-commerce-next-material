@@ -195,3 +195,20 @@ export const myOrders = {
   },
 }
 
+export const profile = {
+  en: {
+    ...login.en,
+    head: "profile",
+    submit: "update",
+    h2: "update user details",
+    warning: "after any change you will logout automatic"
+  },
+  he: {
+    ...login.he,
+    head: "פרופיל",
+    submit: "עדכן",
+    h2: "עדכון פרטי משתמש",
+    warning: "אחרי כל שינוי בפרטי המשתמש תתבצע התנתקות אוטומטית"
+
+  }
+}

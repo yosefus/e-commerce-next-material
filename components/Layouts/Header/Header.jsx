@@ -1,26 +1,32 @@
 import React, { useContext, useState } from 'react';
-import { AppBar, Badge, Button, FormControl, InputLabel, Menu, MenuItem, Select, Switch, Toolbar, Typography } from '@mui/material';
+import { AppBar, Badge, Button, FormControl, InputLabel, Menu, MenuItem, Select, Switch, Toolbar } from '@mui/material';
 import { styled } from '@mui/system';
 import { Store, ACTION_TYPES } from '../../../utils/Store';
 import LanguageIcon from '@mui/icons-material/Language';
 import { MyLink } from '../../'
 import { header as Text } from '../../../utils/text'
+import Image from 'next/image';
+
 
 const { DARK_MODE, LANG_EN, LANG_HE, LIGHT_MODE } = ACTION_TYPES;
 
 const StyledNav = styled(AppBar)(({ theme }) => ({
   '& .toolBar': {
+    height: "100%",
     [theme.breakpoints.down('sm')]: {
       padding: "0"
     }
   },
   '& .link': {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     margin: '0 0 0 1rem',
-    fontWeight: 'bold',
-    fontSize: '1.5rem',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '0.9rem',
-    },
+    background: "#ffffff4c",
+    borderRadius: "50%",
+    aspectRatio: "4/4",
+    height: "50px",
+    // width: "calc(height*1)"
   },
   '& .linkNav': {
     margin: '0 1rem 0 0 ',
@@ -54,10 +60,8 @@ export default function Header() {
   return (
     <StyledNav dir="ltr" position="static">
       <Toolbar className='toolBar'>
-        <MyLink href="/" className="link" >
-          <Typography variant="danger" color="danger">
-            Yosefus
-          </Typography>
+        <MyLink href="/" className="link"  >
+          <Image priority objectFit="contain" width={"40px"} height={"40px"} src='/logo2.svg' alt="logo" />
         </MyLink>
 
         <div style={{ flexGrow: 1 }}></div>

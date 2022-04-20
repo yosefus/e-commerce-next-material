@@ -8,7 +8,8 @@ handler.get(async (req, res) => {
   let result;
   try {
     await db.connect();
-    const products = await Product.find({ isDeleted: false });
+    const products = await Product.find({ category: "cars", isDeleted: false });
+    console.log("some");
     result = { code: 200, success: true, data: products };
   } catch (error) {
     result = { code: error.code || 500, success: false, msg: error.message || error };
