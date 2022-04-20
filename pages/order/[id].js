@@ -114,7 +114,6 @@ function Order({ params }) {
       return (
          <StyledDiv>
             <Title title={`${Text[lang].h1Order} ${orderId}`} />
-
             <Grid container spacing={3} >
 
                <Grid item md={9} xs={12}>
